@@ -10,7 +10,8 @@ namespace Renderer.GDI.UI.Themes
     public class Orange: Theme
     {
         public Orange()
-            : base(new WindowTheme(Color.Black, Color.Orange, Color.OrangeRed, Color.Blue, Color.Purple, 1, 2))
+            : base(new WindowTheme(Color.Black, Color.Orange, Color.OrangeRed, Color.Blue, Color.Purple, 1, 2),
+                   new PanelTheme (Color.Black, Color.Gray))
         {
 
         }

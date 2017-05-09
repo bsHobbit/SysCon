@@ -19,7 +19,7 @@ namespace Renderer.GDI
         /// <summary>
         /// Standardschriftart, die verwendet wird, wenn keine angegeben ist.
         /// </summary>
-        public static Font DefaultFont = new Font("Arial", 8);
+        public static Font DefaultFont = new Font("Arial", 12);
 
         /// <summary>
         /// Text, welcher gerendert werden soll.

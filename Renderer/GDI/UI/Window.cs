@@ -253,8 +253,8 @@ namespace Renderer.GDI.UI
         void UpdatePanel()
         {
             Vector2 titleSize = TextSize(RenderTitle);
-            Vector2 panelSize = Size - new Vector2(2, titleSize.Y);
-            Vector2 panelLocation = new Vector2(0, titleSize.Y / 2 - 1);
+            Vector2 panelSize = Size - new Vector2(-1, titleSize.Y);
+            Vector2 panelLocation = new Vector2(-1, titleSize.Y / 2);
             if (Panel == null)
             {
                 Panel = new Panel(panelSize, panelLocation);
@@ -267,7 +267,6 @@ namespace Renderer.GDI.UI
             }
 
             Panel.ApplyTheme(Theme);
-            
         }
         #endregion
 

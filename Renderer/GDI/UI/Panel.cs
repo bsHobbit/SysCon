@@ -14,5 +14,16 @@ namespace Renderer.GDI.UI
         {
 
         }
+
+
+        public override void ApplyTheme(Theme Theme)
+        {
+            base.ApplyTheme(Theme);
+
+            if (Enabled)
+                Color = Theme.Panel.BorderColor_Idle;
+            else
+                Color = Theme.Panel.BorderColor_Disabled;
+        }
     }
 }

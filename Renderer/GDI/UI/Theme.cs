@@ -39,12 +39,28 @@ namespace Renderer.GDI.UI
             }
         }
 
+        public struct PanelTheme
+        {
+            public Color BorderColor_Idle { get; private set; }
+            public Color BorderColor_Disabled { get; private set; }
+
+            public PanelTheme(Color BorderIdle, Color BorderDisabled)
+                :this()
+            {
+                BorderColor_Idle = BorderIdle;
+                BorderColor_Disabled = BorderDisabled;
+            }
+        }
+
         public WindowTheme Window { get; private set; }
+        public PanelTheme Panel { get; private set; }
         public static Theme Orange = new Themes.Orange();
 
-        internal Theme(WindowTheme WindowTheme)
+        internal Theme(WindowTheme WindowTheme,
+                       PanelTheme PanelTheme)
         {
             Window = WindowTheme;
+            Panel = PanelTheme;
         }
     }
 
