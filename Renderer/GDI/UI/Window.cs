@@ -208,7 +208,6 @@ namespace Renderer.GDI.UI
         }
         #endregion
 
-
         #region Container Overrides für das Panel
 
         /// <summary>
@@ -253,8 +252,9 @@ namespace Renderer.GDI.UI
         /// </summary>
         void UpdatePanel()
         {
-            Vector2 panelSize = Size - new Vector2(1, 11);
-            Vector2 panelLocation = new Vector2(0, 8);
+            Vector2 titleSize = TextSize(RenderTitle);
+            Vector2 panelSize = Size - new Vector2(2, titleSize.Y);
+            Vector2 panelLocation = new Vector2(0, titleSize.Y / 2 - 1);
             if (Panel == null)
             {
                 Panel = new Panel(panelSize, panelLocation);

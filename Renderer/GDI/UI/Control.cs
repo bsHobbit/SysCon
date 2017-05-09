@@ -294,7 +294,7 @@ namespace Renderer.GDI.UI
 
         #endregion
 
-        #region Berechnung Textposition
+        #region Berechnung Text
         /// <summary>
         /// Berechnet die position eines Textes anhand der gewünschten Zielkoordinaten.
         /// </summary>
@@ -349,6 +349,33 @@ namespace Renderer.GDI.UI
             }
             catch { }
             
+        }
+
+        /// <summary>
+        /// Berechnet die Rendergröße eines Textes.
+        /// </summary>
+        /// <param name="Text">Text, von welchem die Größe berechnet werden soll.</param>
+        /// <returns>Größe des Textes in Pixel im Vector2 Format.</returns>
+        protected Vector2 TextSize(RenderText Text)
+        {
+            if (Text!=null)
+            {
+
+                try
+                {
+                    Bitmap tmpBitmap = new Bitmap(10, 10, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    Graphics g = Graphics.FromImage(tmpBitmap);
+                    SizeF tmpstringSize = g.MeasureString(Text.Text, Text.Font);
+                    g.Dispose();
+                    tmpBitmap.Dispose();
+                    return new Vector2(tmpstringSize.Width, tmpstringSize.Height);
+                }
+                catch (System.Exception)
+                {
+                    
+                }
+            }
+            return new Vector2();
         }
 
         #endregion
