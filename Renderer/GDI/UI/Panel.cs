@@ -18,7 +18,6 @@ namespace Renderer.GDI.UI
         public Panel(Vector2 Size, Vector2 Location)
             : base(Size, Location, System.Drawing.Color.Red)
         {
-
         }
         #endregion
 

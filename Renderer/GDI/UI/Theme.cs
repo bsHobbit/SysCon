@@ -17,6 +17,10 @@ namespace Renderer.GDI.UI
             public Color BorderColor_MouseOver_Active { get; private set; }
             public Color BorderColor_Disabled { get; private set; }
 
+            public Color TextColor_Idle { get; private set; }
+            public Color TextColor_MouseOver { get; private set; }
+            public Color TextColor_Disabled { get; private set; }
+
             public double RenderWidth_Idle { get; private set; }
             public double RenderWidth_MouseOver { get; private set; }
 
@@ -25,6 +29,9 @@ namespace Renderer.GDI.UI
                                Color BorderActive, 
                                Color BorderMouseOverActive, 
                                Color BorderDisabled,
+                               Color TextIdle,
+                               Color TextMouseOver,
+                               Color TextDisabled,
                                double RenderWidthIdle,
                                double RenderWidthMouseOver)
                 : this()
@@ -34,11 +41,13 @@ namespace Renderer.GDI.UI
                 BorderColor_Idle = BorderIdle;
                 BorderColor_MouseOver = BorderMouseOver;
                 BorderColor_MouseOver_Active = BorderMouseOverActive;
+                TextColor_Idle = TextIdle;
+                TextColor_MouseOver = TextMouseOver;
+                TextColor_Disabled = TextDisabled;
                 RenderWidth_Idle = RenderWidthIdle;
                 RenderWidth_MouseOver = RenderWidthMouseOver;
             }
         }
-
         public struct PanelTheme
         {
             public Color BorderColor_Idle { get; private set; }

@@ -85,16 +85,26 @@ namespace Renderer.GDI.UI
         {
             Color = Theme.Window.BorderColor_Idle;
             RenderWidth = IsMouseOver && Enabled ? (float)Theme.Window.RenderWidth_MouseOver : (float)Theme.Window.RenderWidth_Idle;
+            RenderTitle.Color = Theme.Window.TextColor_Idle;
 
             if (IsMouseOver && Focused)
+            {
                 Color = Theme.Window.BorderColor_MouseOver_Active;
+                RenderTitle.Color = Theme.Window.TextColor_MouseOver;
+            }
             else if (IsMouseOver && !Focused)
+            {
                 Color = Theme.Window.BorderColor_MouseOver;
+                RenderTitle.Color = Theme.Window.TextColor_MouseOver;
+            }
             else if (!IsMouseOver && Focused)
                 Color = Theme.Window.BorderColor_Active;
 
             if (!Enabled || !ParentEnabled)
+            {
                 Color = Theme.Window.BorderColor_Disabled;
+                RenderTitle.Color = Theme.Window.TextColor_Disabled;
+            }
         }
 
 
