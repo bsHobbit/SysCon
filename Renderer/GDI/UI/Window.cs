@@ -114,19 +114,19 @@ namespace Renderer.GDI.UI
             RenderWidth = IsMouseOver && Enabled ? (float)Theme.Window.RenderWidth_MouseOver : (float)Theme.Window.RenderWidth_Idle;
             
 
-            if (IsMouseOver && Focused)
+            if (IsMouseOver && (Focused || ChildFocused))
             {
                 BorderColorShift.TargetColor = Theme.Window.BorderColor_MouseOver_Active;
                 TextColorShift.TargetColor = Theme.Window.TextColor_MouseOver;
                 FillColorShift.TargetColor = Theme.Window.FillColor_MouseOver;
             }
-            else if (IsMouseOver && !Focused)
+            else if (IsMouseOver && !Focused && !ChildFocused)
             {
                 BorderColorShift.TargetColor = Theme.Window.BorderColor_MouseOver;
                 TextColorShift.TargetColor = Theme.Window.TextColor_MouseOver;
                 FillColorShift.TargetColor = Theme.Window.FillColor_MouseOver;
             }
-            else if (!IsMouseOver && Focused)
+            else if (!IsMouseOver && (Focused || ChildFocused))
             {
                 BorderColorShift.TargetColor = Theme.Window.BorderColor_Active;
             }
@@ -246,10 +246,6 @@ namespace Renderer.GDI.UI
             if (Container != null && e.ButtonStates[0])
                 Container.SetActiveControl(this);
             MouseDownTimer = DateTime.Now;
-
-            if (!Focused)
-                Focus();
-
             ApplyTheme();
         }
 

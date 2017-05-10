@@ -109,12 +109,52 @@ namespace Renderer.GDI.UI
             get { return focused; }
             set
             {
+                //Wenn das Control den Fokus verlieren soll (weil im Container geklickt wurde) dann müssen auch alle Sub-Controls den Fokus aufgeben!
+                bool subFocusChanged = false;
+                if (SubObjects != null && !value)
+                {
+                    for (int i = 0; i < SubObjects.Count; i++)
+                    {
+                        Control tmpControl = SubObjects[i] as Control;
+                        if (tmpControl != null)
+                        {
+                            tmpControl.Focused = value;
+                            subFocusChanged = true;
+                        }
+                    }
+                }
+
                 bool old = focused;
                 focused = value;
-                if (old != focused && OnFocusChanged != null)
-                    OnFocusChanged(this);
+                if (((old != focused) || subFocusChanged))
+                    RaiseEvent_FocusChanged();
             }
-        }       
+        }
+
+        /// <summary>
+        /// Ruft einen Wert ab, der angibt, ob ein Kind-Elemt den Fokus hat.
+        /// </summary>
+        public bool ChildFocused
+        {
+            get
+            {
+                if (SubObjects != null)
+                {
+                    for (int i = 0; i < SubObjects.Count; i++)
+                    {
+                        Control tmpControl = SubObjects[i] as Control;
+                        if (tmpControl != null)
+                        {
+                            bool subHasFocus = tmpControl.ChildFocused;
+                            if (subHasFocus || focused)
+                                return true;
+                        }
+                    }
+                }
+
+                return focused;
+            }
+        }
 
         /// <summary>
         /// Ruft einen Wert ab, der angibt, ob das Eltern-Control enabled ist.
@@ -155,8 +195,11 @@ namespace Renderer.GDI.UI
             OnMouseEnter += Control_OnMouseEnter;
             OnMouseLeave += Control_OnMouseLeave;
 
+            OnMouseDown += Control_OnMouseDown;
+
             OnEnabledChanged += Control_OnEnabledChanged;
         }
+
 
 
 
@@ -278,6 +321,16 @@ namespace Renderer.GDI.UI
             IsMouseOver = true;
         }
 
+        /// <summary>
+        /// Ggf. das Control Fokusieren
+        /// </summary>
+        /// <param name="Object">This.</param>
+        /// <param name="e">Mausdaten für das event.</param>
+        private void Control_OnMouseDown(RenderObject Object, GDIMouseEventArgs e)
+        {
+            if (!Focused)
+                Focus();
+        }
         #endregion
 
         #region Größenänderung
@@ -378,6 +431,19 @@ namespace Renderer.GDI.UI
             return new Vector2();
         }
 
+        #endregion
+
+        #region Force-Events
+        /// <summary>
+        /// Ruft das FocusChanged-Event auf.
+        /// Wir benötigt für Container.
+        /// </summary>
+        protected void RaiseEvent_FocusChanged()
+        {
+            if (Container != null)
+                Container.RaiseEvent_FocusChanged();
+            OnFocusChanged?.Invoke(this);
+        }
         #endregion
     }
 }
