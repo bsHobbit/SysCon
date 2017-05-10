@@ -346,7 +346,10 @@ namespace Renderer.GDI
                 {
                     g.FillPolygon(new System.Drawing.SolidBrush(Item.Color), Item.TransformedVerticesForGDI);
                     if (Item.BorderColor != Item.Color)
+                    {
+                        DrawCalls++;
                         g.DrawPolygon(new System.Drawing.Pen(new System.Drawing.SolidBrush(Item.BorderColor), (float)Item.RenderWidth * (float)camera.Scale.X), Item.TransformedVerticesForGDI);
+                    }
                 }
 
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
