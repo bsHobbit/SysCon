@@ -27,8 +27,9 @@ namespace Renderer.GDI.UI
             public double RenderWidth_Idle { get; private set; }
             public double RenderWidth_MouseOver { get; private set; }
 
-            public double BorderColorShift_Time { get; private set; }
-            public double FillColorShift_Time { get; private set; }
+            public double BorderColor_ShiftTime { get; private set; }
+            public double FillColor_ShiftTime { get; private set; }
+            public double TextColor_ShiftTime { get; private set; }
 
             public WindowTheme(Color BorderIdle, 
                                Color BorderMouseOver, 
@@ -42,6 +43,7 @@ namespace Renderer.GDI.UI
                                Color TextDisabled,
                                double BorderColorShiftTime,
                                double FillColorShiftTime,
+                               double TextColorShiftTime,
                                double RenderWidthIdle,
                                double RenderWidthMouseOver)
                 : this()
@@ -56,8 +58,9 @@ namespace Renderer.GDI.UI
                 TextColor_Idle = TextIdle;
                 TextColor_MouseOver = TextMouseOver;
                 TextColor_Disabled = TextDisabled;
-                BorderColorShift_Time = BorderColorShiftTime;
-                FillColorShift_Time = FillColorShiftTime;
+                BorderColor_ShiftTime = BorderColorShiftTime;
+                FillColor_ShiftTime = FillColorShiftTime;
+                TextColor_ShiftTime = TextColorShiftTime;
                 RenderWidth_Idle = RenderWidthIdle;
                 RenderWidth_MouseOver = RenderWidthMouseOver;
             }

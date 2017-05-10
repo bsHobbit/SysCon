@@ -46,6 +46,7 @@ namespace Renderer.GDI.UI
             }
         }
 
+
         /// <summary>
         /// Farbverlauf für den Rahmen des Controls.
         /// </summary>
@@ -55,6 +56,11 @@ namespace Renderer.GDI.UI
         /// Farbverlauf für das Fenster.
         /// </summary>
         ColorShift FillColorShift;
+
+        /// <summary>
+        /// Farbverlauf für den Text.
+        /// </summary>
+        ColorShift TextColorShift;
 
         #endregion
 
@@ -99,22 +105,25 @@ namespace Renderer.GDI.UI
                 BorderColorShift.UpdateColor -= BorderColorShift_UpdateColor;
             if (FillColorShift != null)
                 FillColorShift.UpdateColor -= FillColorShift_UpdateColor;
+            if (TextColorShift != null)
+                TextColorShift.UpdateColor -= TextColorShift_UpdateColor;
 
-            BorderColorShift = new ColorShift(BorderColor, Theme.Window.BorderColor_Idle, Theme.Window.BorderColorShift_Time);
-            FillColorShift = new ColorShift(Color, Theme.Window.FillColor_Idle, Theme.Window.FillColorShift_Time);
+            BorderColorShift = new ColorShift(BorderColor, Theme.Window.BorderColor_Idle, Theme.Window.BorderColor_ShiftTime);
+            FillColorShift = new ColorShift(Color, Theme.Window.FillColor_Idle, Theme.Window.FillColor_ShiftTime);
+            TextColorShift = new ColorShift(RenderTitle.Color, Theme.Window.TextColor_Idle, Theme.Window.TextColor_ShiftTime);
             RenderWidth = IsMouseOver && Enabled ? (float)Theme.Window.RenderWidth_MouseOver : (float)Theme.Window.RenderWidth_Idle;
-            RenderTitle.Color = Theme.Window.TextColor_Idle;
+            
 
             if (IsMouseOver && Focused)
             {
                 BorderColorShift.TargetColor = Theme.Window.BorderColor_MouseOver_Active;
-                RenderTitle.Color = Theme.Window.TextColor_MouseOver;
+                TextColorShift.TargetColor = Theme.Window.TextColor_MouseOver;
                 FillColorShift.TargetColor = Theme.Window.FillColor_MouseOver;
             }
             else if (IsMouseOver && !Focused)
             {
                 BorderColorShift.TargetColor = Theme.Window.BorderColor_MouseOver;
-                RenderTitle.Color = Theme.Window.TextColor_MouseOver;
+                TextColorShift.TargetColor = Theme.Window.TextColor_MouseOver;
                 FillColorShift.TargetColor = Theme.Window.FillColor_MouseOver;
             }
             else if (!IsMouseOver && Focused)
@@ -125,13 +134,31 @@ namespace Renderer.GDI.UI
             if (!Enabled || !ParentEnabled)
             {
                 BorderColorShift.TargetColor = Theme.Window.BorderColor_Disabled;
-                RenderTitle.Color = Theme.Window.TextColor_Disabled;
+                TextColorShift.TargetColor = Theme.Window.TextColor_Disabled;
             }
 
             BorderColorShift.UpdateColor += BorderColorShift_UpdateColor;
             BorderColorShift.Start();
             FillColorShift.UpdateColor += FillColorShift_UpdateColor;
             FillColorShift.Start();
+            TextColorShift.UpdateColor += TextColorShift_UpdateColor;
+            TextColorShift.Start();
+        }
+
+        /// <summary>
+        /// Neue Farbe für den Text des Controls wurde berechnet.
+        /// </summary>
+        /// <param name="Color">Neue Farbe des Textes</param>
+        /// <param name="Finished">True, wenn der Shift abgeschlossen wurde.</param>
+        private void TextColorShift_UpdateColor(Color Color, bool Finished)
+        {
+            RenderTitle.Color = Color;
+
+            if (Finished && TextColorShift != null)
+            {
+                TextColorShift.UpdateColor -= TextColorShift_UpdateColor;
+                TextColorShift = null;
+            }
         }
 
         /// <summary>
