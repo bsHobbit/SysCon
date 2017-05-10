@@ -46,6 +46,16 @@ namespace Renderer.GDI.UI
             }
         }
 
+        /// <summary>
+        /// Farbverlauf für den Rahmen des Controls.
+        /// </summary>
+        ColorShift BorderColorShift;
+
+        /// <summary>
+        /// Farbverlauf für das Fenster.
+        /// </summary>
+        ColorShift FillColorShift;
+
         #endregion
 
         #region Konstruktor
@@ -73,7 +83,9 @@ namespace Renderer.GDI.UI
             OnSizeChanged += Window_OnSizeChanged;
             ApplyTheme();
             UpdatePanel();
+            Fill = true;
         }
+
         #endregion
 
         #region Änderungen die das Theme betreffen
@@ -83,27 +95,73 @@ namespace Renderer.GDI.UI
         /// </summary>
         void ApplyTheme()
         {
-            Color = Theme.Window.BorderColor_Idle;
+            if (BorderColorShift != null)
+                BorderColorShift.UpdateColor -= BorderColorShift_UpdateColor;
+            if (FillColorShift != null)
+                FillColorShift.UpdateColor -= FillColorShift_UpdateColor;
+
+            BorderColorShift = new ColorShift(BorderColor, Theme.Window.BorderColor_Idle, Theme.Window.BorderColorShift_Time);
+            FillColorShift = new ColorShift(Color, Theme.Window.FillColor_Idle, Theme.Window.FillColorShift_Time);
             RenderWidth = IsMouseOver && Enabled ? (float)Theme.Window.RenderWidth_MouseOver : (float)Theme.Window.RenderWidth_Idle;
             RenderTitle.Color = Theme.Window.TextColor_Idle;
 
             if (IsMouseOver && Focused)
             {
-                Color = Theme.Window.BorderColor_MouseOver_Active;
+                BorderColorShift.TargetColor = Theme.Window.BorderColor_MouseOver_Active;
                 RenderTitle.Color = Theme.Window.TextColor_MouseOver;
+                FillColorShift.TargetColor = Theme.Window.FillColor_MouseOver;
             }
             else if (IsMouseOver && !Focused)
             {
-                Color = Theme.Window.BorderColor_MouseOver;
+                BorderColorShift.TargetColor = Theme.Window.BorderColor_MouseOver;
                 RenderTitle.Color = Theme.Window.TextColor_MouseOver;
+                FillColorShift.TargetColor = Theme.Window.FillColor_MouseOver;
             }
             else if (!IsMouseOver && Focused)
-                Color = Theme.Window.BorderColor_Active;
+            {
+                BorderColorShift.TargetColor = Theme.Window.BorderColor_Active;
+            }
 
             if (!Enabled || !ParentEnabled)
             {
-                Color = Theme.Window.BorderColor_Disabled;
+                BorderColorShift.TargetColor = Theme.Window.BorderColor_Disabled;
                 RenderTitle.Color = Theme.Window.TextColor_Disabled;
+            }
+
+            BorderColorShift.UpdateColor += BorderColorShift_UpdateColor;
+            BorderColorShift.Start();
+            FillColorShift.UpdateColor += FillColorShift_UpdateColor;
+            FillColorShift.Start();
+        }
+
+        /// <summary>
+        /// Neue Farbe für das Controls wurde berechnet.
+        /// </summary>
+        /// <param name="Color">Neue Farbe des Controls</param>
+        /// <param name="Finished">True, wenn der Shift abgeschlossen wurde.</param>
+        private void FillColorShift_UpdateColor(Color Color, bool Finished)
+        {
+            base.Color = Color;
+            if (Finished && FillColorShift != null)
+            {
+                FillColorShift.UpdateColor -= BorderColorShift_UpdateColor;
+                FillColorShift = null;
+            }
+        }
+
+
+        /// <summary>
+        /// Neue Farbe für den Rahmen des Controls wurde berechnet.
+        /// </summary>
+        /// <param name="Color">Neue Farbe des Rahmens</param>
+        /// <param name="Finished">True, wenn der Shift abgeschlossen wurde.</param>
+        private void BorderColorShift_UpdateColor(Color Color, bool Finished)
+        {
+            BorderColor = Color;
+            if (Finished && BorderColorShift != null)
+            {
+                BorderColorShift.UpdateColor -= BorderColorShift_UpdateColor;
+                BorderColorShift = null;
             }
         }
 

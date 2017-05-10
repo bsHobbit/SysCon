@@ -68,6 +68,7 @@
     <Compile Include="GDI\RenderObjectEvents.cs" />
     <Compile Include="GDI\RenderText.cs" />
     <Compile Include="GDI\UI\Button.cs" />
+    <Compile Include="GDI\ColorShift.cs" />
     <Compile Include="GDI\UI\Control.cs" />
     <Compile Include="GDI\UI\Container.cs" />
     <Compile Include="GDI\UI\Panel.cs" />

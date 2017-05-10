@@ -162,6 +162,10 @@ namespace Renderer.GDI
         /// </summary>
         public System.Drawing.Color Color { get; set; }
         /// <summary>
+        /// Farbe, mit welcher der Rand gerendert werden soll, wenn das Objekt gefüllt ist.
+        /// </summary>
+        public System.Drawing.Color BorderColor { get; set; }
+        /// <summary>
         /// True, wenn das Objekt gefüllt dargestellt werden soll, sonst false
         /// </summary>
         public bool Fill { get; set; }
@@ -357,6 +361,7 @@ namespace Renderer.GDI
             scale = Scale;
             rotation = Rotation;
             this.Color = Color;
+            this.BorderColor = Color;
             this.Fill = Fill;
             UpdateWorldMatrix();
         }
