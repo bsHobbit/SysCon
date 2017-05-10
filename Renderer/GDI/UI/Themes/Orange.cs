@@ -12,8 +12,8 @@ namespace Renderer.GDI.UI.Themes
         public Orange()
             : base(new WindowTheme(Color.OrangeRed, //Border Idle
                                    Color.OrangeRed, //Border Over
-                                   Color.Blue, //Border Active 
-                                   Color.Pink, //Border active over
+                                   Color.MediumVioletRed, //Border Active 
+                                   Color.IndianRed, //Border active over
                                    Color.Purple, //Border Disabled
                                    Color.Transparent, //Fill Idle
                                    Color.Wheat, //Fill Over
@@ -25,7 +25,8 @@ namespace Renderer.GDI.UI.Themes
                                    200, //Text Time
                                    1, //Renderwidth Idle
                                    2), //Renderwidth Over
-                   new PanelTheme(Color.Black, Color.Gray))
+                   new PanelTheme(Color.Black, //Border Idle
+                                  Color.Gray)) //Border Disabled
         {
 
         }

@@ -87,6 +87,14 @@ namespace Renderer.GDI.UI
             OnFocusChanged += Window_OnFocusChanged;
             OnEnabledChanged += Window_OnEnabledChanged;
             OnSizeChanged += Window_OnSizeChanged;
+
+            BorderColorShift = new ColorShift();
+            FillColorShift = new ColorShift();
+            TextColorShift = new ColorShift();
+            BorderColorShift.UpdateColor += BorderColorShift_UpdateColor;
+            FillColorShift.UpdateColor += FillColorShift_UpdateColor;
+            TextColorShift.UpdateColor += TextColorShift_UpdateColor;
+
             ApplyTheme();
             UpdatePanel();
             Fill = true;
@@ -101,18 +109,10 @@ namespace Renderer.GDI.UI
         /// </summary>
         void ApplyTheme()
         {
-            if (BorderColorShift != null)
-                BorderColorShift.UpdateColor -= BorderColorShift_UpdateColor;
-            if (FillColorShift != null)
-                FillColorShift.UpdateColor -= FillColorShift_UpdateColor;
-            if (TextColorShift != null)
-                TextColorShift.UpdateColor -= TextColorShift_UpdateColor;
-
-            BorderColorShift = new ColorShift(BorderColor, Theme.Window.BorderColor_Idle, Theme.Window.BorderColor_ShiftTime);
-            FillColorShift = new ColorShift(Color, Theme.Window.FillColor_Idle, Theme.Window.FillColor_ShiftTime);
-            TextColorShift = new ColorShift(RenderTitle.Color, Theme.Window.TextColor_Idle, Theme.Window.TextColor_ShiftTime);
+            BorderColorShift.Set(BorderColor, Theme.Window.BorderColor_Idle, Theme.Window.BorderColor_ShiftTime);
+            FillColorShift.Set(Color, Theme.Window.FillColor_Idle, Theme.Window.FillColor_ShiftTime);
+            TextColorShift.Set(RenderTitle.Color, Theme.Window.TextColor_Idle, Theme.Window.TextColor_ShiftTime);
             RenderWidth = IsMouseOver && Enabled ? (float)Theme.Window.RenderWidth_MouseOver : (float)Theme.Window.RenderWidth_Idle;
-            
 
             if (IsMouseOver && (Focused || ChildFocused))
             {
@@ -137,11 +137,8 @@ namespace Renderer.GDI.UI
                 TextColorShift.TargetColor = Theme.Window.TextColor_Disabled;
             }
 
-            BorderColorShift.UpdateColor += BorderColorShift_UpdateColor;
             BorderColorShift.Start();
-            FillColorShift.UpdateColor += FillColorShift_UpdateColor;
             FillColorShift.Start();
-            TextColorShift.UpdateColor += TextColorShift_UpdateColor;
             TextColorShift.Start();
         }
 
@@ -153,12 +150,6 @@ namespace Renderer.GDI.UI
         private void TextColorShift_UpdateColor(Color Color, bool Finished)
         {
             RenderTitle.Color = Color;
-
-            if (Finished && TextColorShift != null)
-            {
-                TextColorShift.UpdateColor -= TextColorShift_UpdateColor;
-                TextColorShift = null;
-            }
         }
 
         /// <summary>
@@ -169,11 +160,6 @@ namespace Renderer.GDI.UI
         private void FillColorShift_UpdateColor(Color Color, bool Finished)
         {
             base.Color = Color;
-            if (Finished && FillColorShift != null)
-            {
-                FillColorShift.UpdateColor -= BorderColorShift_UpdateColor;
-                FillColorShift = null;
-            }
         }
 
 
@@ -185,11 +171,6 @@ namespace Renderer.GDI.UI
         private void BorderColorShift_UpdateColor(Color Color, bool Finished)
         {
             BorderColor = Color;
-            if (Finished && BorderColorShift != null)
-            {
-                BorderColorShift.UpdateColor -= BorderColorShift_UpdateColor;
-                BorderColorShift = null;
-            }
         }
 
 

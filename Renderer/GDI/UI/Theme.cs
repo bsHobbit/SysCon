@@ -77,6 +77,15 @@ namespace Renderer.GDI.UI
                 BorderColor_Disabled = BorderDisabled;
             }
         }
+        public struct ButtonTheme
+        {
+            public Color BorderColor_Idle { get; private set; }
+            public Color BorderColor_Over { get; private set; }
+            public Color BorderColor_Active { get; private set; }
+            public Color BorderColor_Disabled { get; private set; }
+
+            public double BorderColor_ShiftTime { get; private set; }
+        }
 
         public WindowTheme Window { get; private set; }
         public PanelTheme Panel { get; private set; }

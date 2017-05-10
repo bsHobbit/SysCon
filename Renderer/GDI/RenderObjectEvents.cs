@@ -22,7 +22,6 @@ namespace Renderer.GDI
 
         #endregion
 
-
         #region Konstruktor
         /// <summary>
         /// INitialisiert eine neue Instanz der RenderObjectEvents Klasse.
@@ -37,10 +36,7 @@ namespace Renderer.GDI
         }
         #endregion
 
-
-
         #region Canvas-Events
-
         /// <summary>
         /// Sucht in einer Liste nach dem ersten Objekt, über welchem sich die Maus befindet.
         /// </summary>

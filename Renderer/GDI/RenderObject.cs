@@ -380,7 +380,6 @@ namespace Renderer.GDI
         }
         #endregion
 
-
         #region WorldMatrix
         /// <summary>
         /// Aktualisiert die Transformationsmatrix für dieses Objekt.

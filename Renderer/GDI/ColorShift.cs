@@ -38,7 +38,7 @@ namespace Renderer.GDI
         /// <summary>
         /// Zeit, in welcher der Shift vollendet werden soll.
         /// </summary>
-        double TotalTime;
+        public double TotalTime { get; set; }
         /// <summary>
         /// Zeitgeber für den ColorShift.
         /// </summary>
@@ -46,6 +46,15 @@ namespace Renderer.GDI
         #endregion
 
         #region Konstruktor
+
+        /// <summary>
+        /// Initilisiert eine neue Instanz der ColorShift-Klasse mit Standardwerten.
+        /// </summary>
+        public ColorShift()
+            : this(Color.Black, Color.Black, 0)
+        {
+
+        }
         /// <summary>
         /// Initialisiert eine neue Instanz der ColorShift-Klasse.
         /// </summary>
@@ -88,10 +97,31 @@ namespace Renderer.GDI
         /// </summary>
         public void Start()
         {
-            Timer = new System.Windows.Forms.Timer();
-            Timer.Enabled = true;
-            Timer.Interval = 33;
-            Timer.Tick += Timer_Tick;
+            Elapsed = 0;
+            if (Timer == null)
+            {
+                Timer = new System.Windows.Forms.Timer();
+                Timer.Enabled = true;
+                Timer.Interval = 33;
+                Timer.Tick += Timer_Tick;
+            }
+            else
+                Timer.Enabled = true;
+        }
+        #endregion
+
+        #region Einstellungen
+        /// <summary>
+        /// Stellt die Daten für den ColorShift ein.
+        /// </summary>
+        /// <param name="Start">Farbe, bei welcher der Shift starten soll.</param>
+        /// <param name="Target">Farbe, bei welcher der Shift enden soll.</param>
+        /// <param name="Time">Zeit, in welcher der Shift stattfinden soll.</param>
+        public void Set(Color Start, Color Target, double Time)
+        {
+            StartColor = Start;
+            TargetColor = Target;
+            TotalTime = Time;
         }
         #endregion
     }

@@ -17,9 +17,11 @@ namespace TestLab
             Canvas = new Canvas(pictureBox);
             Renderer.GDI.UI.Control window = new Renderer.GDI.UI.Window(new Vector2(250, 250), new Vector2(0, 0), "Fenster-Titel");
             Renderer.GDI.UI.Panel panel = new Renderer.GDI.UI.Panel(new Vector2(500, 500), new Vector2(250, 250));
+            Renderer.GDI.UI.Button button = new Renderer.GDI.UI.Button(new Vector2(50, 20), new Vector2());
             panel.SetCanvas(Canvas);
             panel.Add(window);
             panel.ApplyTheme(Renderer.GDI.UI.Theme.Orange);
+            window.Add(button);
 
             //panel.Enabled = false;
 
